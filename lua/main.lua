@@ -40,7 +40,7 @@ hexagon.x, hexagon.y = halfW, screenH*.4
 
 local dot3 = shapes.newDot({x=hexagon.x, y=hexagon.y})
 
-local pie = shapes.newPie({
+local pie, vector = shapes.newPie({
 	start_angle = 0,
 	end_angle = 70,
 	radius = radius,
@@ -48,6 +48,11 @@ local pie = shapes.newPie({
 })
 
 pie.x, pie.y = halfW, screenH*.7
+
+if (vector) then
+	vector.x = pie.x
+	vector.y = pie.y
+end
 
 local dot3 = shapes.newDot({x=pie.x, y=pie.y})
 

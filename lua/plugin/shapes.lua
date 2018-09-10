@@ -26,13 +26,20 @@ local function dsin(dangle)
 end
 
 
-local function reverse(start_angle, end_angle)
+local function reverse(start_angle, end_angle, radius)
 
-    local x1 = -dcos(start_angle)
-    local y1 = -dsin(start_angle)
 
-    local x2 = -dcos(end_angle)
-    local y2 = -dsin(end_angle)
+    print("angles", start_angle, end_angle)
+
+    local x1 = -dcos(start_angle)*radius
+    local y1 = -dsin(start_angle)*radius
+
+    print(x1, y1)
+
+    local x2 = -dcos(end_angle)*radius
+    local y2 = -dsin(end_angle)*radius
+
+    print(x2, y2)
 
     return (x1+x2)/2, (y1+y2)/2
 
@@ -100,11 +107,25 @@ end
 
 
 function lib.newVector(data)
-    -- 
+    --
+
+    if #data == 1 then
+        table.insert(data, 1, {0,0})
+    end
+
     local bits = {
+        data[1][1],
+        data[1][2],
+        data[2][1],
+        data[2][2]
     }
 
-end 
+	local line = display.newLine(unpack(bits))
+    line.strokeWidth = 1
+    line:setStrokeColor(1,0,1)
+	return line
+
+end
 
 function lib.newDot(data)
 
@@ -144,7 +165,7 @@ function lib.newPie (data)
 
 	data = data or {}
 
-    if data.start_angle > data.end_angle then 
+    if data.start_angle > data.end_angle then
         local _ = data.end_angle
         data.end_angle = data.start_angle
         data.start_angle = _
@@ -161,12 +182,15 @@ function lib.newPie (data)
     local mat = display.newPolygon(0,0, ret)
     -- mat.strokeWidth = data.stroke or 1
 
-    local x0,y0 = reverse(start_angle, end_angle)
+    local x0,y0 = reverse(data.start_angle, data.end_angle, data.radius)
 
+    local v = lib.newVector({{x0,y0}})
+    v.x = halfW
+    v.y = halfH
     print("vector", x0, y0)
 
-    local anchorX = x0/mat.width + 0.5
-    local anchorY = y0/mat.height + 0.5
+    local anchorX = math.min(math.max(x0/mat.width + 0.5, 0),1)
+    local anchorY = math.min(math.max(y0/mat.height + 0.5,0),1)
     print("anchors", anchorX, anchorY)
 
     mat.anchorX, mat.anchorY = anchorX, anchorY
@@ -175,7 +199,7 @@ function lib.newPie (data)
         data.parent:insert(mat)
     end
 
-	return mat
+	return mat, v
 
 end
 
