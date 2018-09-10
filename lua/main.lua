@@ -29,23 +29,27 @@ local arc = shapes.newArc({
 
 arc.x, arc.y = halfW, screenH*.15
 
+local dot1 = shapes.newDot({x=arc.x, y=arc.y})
+
 local hexagon = shapes.newRegularPolygon({
-	nb = 6,
+	nb = 8,
 	radius = radius
 })
 
 hexagon.x, hexagon.y = halfW, screenH*.4
 
+local dot3 = shapes.newDot({x=hexagon.x, y=hexagon.y})
 
 local pie = shapes.newPie({
-	start_angle = 20,
-	end_angle = 90,
+	start_angle = 0,
+	end_angle = 70,
 	radius = radius,
 	stroke = 5,
 })
 
 pie.x, pie.y = halfW, screenH*.7
 
+local dot3 = shapes.newDot({x=pie.x, y=pie.y})
 
 -------------------------------------------------------------------------------
 -- END
