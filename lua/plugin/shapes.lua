@@ -113,11 +113,25 @@ function lib.newCircleSegment(data)
 
 	data = data or {}
 
-    local ret = arc(data.start_angle, data.end_angle, data.radius)
+    local ret, min_x, min_y, max_x, max_y  = arc(data.start_angle, data.end_angle, data.radius)
 
     -- display.newLine(unpack(ret))
 
-    local ret2 = arc(data.end_angle, data.start_angle, data.inner_radius, -5)
+    local ret2,  min_x2, min_y2, max_x2, max_y2  = arc(data.end_angle, data.start_angle, data.inner_radius, -5)
+
+    min_x =math.min(min_x, min_x2)
+    min_y =math.min(min_y, min_y2)
+    max_x =math.max(max_x, max_x2)
+    max_y =math.min(max_y, max_y2)
+
+
+    local bcenter_x = (min_x+max_x)/2
+    local bcenter_y = (min_y+max_y)/2
+
+    if min_x < 0 and max_x > 0 then 
+    end
+
+
 
     local idx = #ret
 
