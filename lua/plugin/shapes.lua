@@ -48,59 +48,86 @@ end
 
 local function arc(start_angle, end_angle, radius, step)
 
-    if start_angle > end_angle then
-        local _ = end_angle
-        end_angle = start_angle
-        start_angle = _
-    end
+    local min_x = 1
+    local min_y = 1
+    local max_x = -1
+    local max_y = -1
 
     step = step or 5
 
-    --local _start = deg2rad(start_angle)
-    --local _end = deg2rad(end_angle)
+    if (end_angle - start_angle) * step < 0 then
+        step = step * -1
+    end
 
-    --local bit = deg2rad(step or 5)
-
-    --if _start > _end then
-    --   local _ = _end
-    --    _end = _start
-    --    _start = _
-    --end
     local points = {}
 
     local _count = 1
 
-    for deg = start_angle, end_angle, step do
-        points[_count] = radius*dcos(deg)
-        points[_count+1] = radius*dsin(deg)
-        _count = _count + 2
+
+    local function check(x,y)
+
+        if x < min_x then min_x = x end
+        if x > max_x then max_x = x end
+        if y < min_y then min_y = y end
+        if y > max_y then max_y = y end
     end
 
-    return points
+
+    for deg = start_angle, end_angle, step do
+        local _x = radius*dcos(deg)
+        local _y = radius*dsin(deg)
+        check(_x,_y)
+        points[_count] = _x
+        points[_count+1] = _y
+        _count = _count + 2
+
+
+    end
+
+    return points, min_x, min_y, max_x, max_y
 
 end
 
+
+function manage(mat, data)
+
+    if data.strokeWidth then
+        mat.strokeWidth = data.strokeWidth
+    end
+
+    mat.x = data.x or 0
+    mat.y = data.y or 0
+    mat.anchorX = data.anchorX or 0.5
+    mat.anchorY = data.anchorY or 0.5
+
+    if data.parent then
+        data.parent:insert(mat)
+    end
+
+    return mat
+
+end
 
 
 function lib.newCircleSegment(data)
 
 	data = data or {}
 
-	local ret = arc(data.start_angle, data.end_angle, data.radius)
+    local ret = arc(data.start_angle, data.end_angle, data.radius)
 
-	local bit2 = deg2rad(-5)
+    -- display.newLine(unpack(ret))
 
-	local ret2 = arc(data.end_angle, data.start_angle, data.radius, bit2)
+    local ret2 = arc(data.end_angle, data.start_angle, data.inner_radius, -5)
 
+    local idx = #ret
 
-    local mat = display.newLine(unpack(ret))
-    mat.strokeWidth = data.stroke or 1
-
-    if data.parent then
-        data.parent:insert(mat)
+    for k,v in ipairs(ret2) do
+        ret[idx+k] = v
     end
 
-	return mat
+    local mat = display.newPolygon(0,0, ret)
+
+	return manage(mat,data)
 
 end
 
@@ -144,14 +171,20 @@ end
 
 function lib.newArc (data)
 
-	data = data or {}
+    local mat = display.newGroup()
+    -- mat.anchorChildren = true
 
+
+    local center = lib.newDot({x=0, y=0})
+    center.alpha = 0 
+
+	
 	local ret = arc(data.start_angle, data.end_angle, data.radius)
 
-    local mat = display.newLine(unpack(ret))
-    mat.strokeWidth = data.stroke or 1
+    local line = display.newLine(mat, unpack(ret))
+    line.strokeWidth = data.stroke or 1
 
-    print("arc anchors", mat.anchorX, mat.anchorY)
+    -- print("arc anchors", mat.anchorX, mat.anchorY)
 
     if data.parent then
         data.parent:insert(mat)
@@ -171,8 +204,41 @@ function lib.newPie (data)
         data.start_angle = _
     end
 
-	local ret = arc(data.start_angle, data.end_angle, data.radius)
+	local ret, min_x, min_y, max_x, max_y = arc(data.start_angle, data.end_angle, data.radius)
 
+
+    print("min/x,y", min_x, min_y, max_x, max_y )
+
+    local anchorX, anchorY
+
+    if min_y < 0 and max_y < 0 then
+        anchorY = 1
+    end
+
+    if min_y > 0 and max_y > 0 then
+        anchorY = 0
+    end
+
+    if min_x < 0 and max_x < 0 then
+        anchorX = 1
+    end
+
+    if min_x > 0 and max_x > 0 then
+        anchorX = 0
+    end
+
+    print("pie anchors (wip)", anchorX, anchorY)
+
+    if anchorX == nil then
+        -- min_x and max_x are not the same sign so min_x < 0 and max_x > 0
+        anchorX = - min_x / (max_x - min_x)
+    end
+
+
+    if anchorY == nil then
+        -- min_x and max_x are not the same sign so min_x < 0 and max_x > 0
+        anchorY = - min_y / (max_y - min_y)
+    end
 
 
 	table.insert(ret, 1, 0)
@@ -182,16 +248,7 @@ function lib.newPie (data)
     local mat = display.newPolygon(0,0, ret)
     -- mat.strokeWidth = data.stroke or 1
 
-    local x0,y0 = reverse(data.start_angle, data.end_angle, data.radius)
-
-    local v = lib.newVector({{x0,y0}})
-    v.x = halfW
-    v.y = halfH
-    print("vector", x0, y0)
-
-    local anchorX = math.min(math.max(x0/mat.width + 0.5, 0),1)
-    local anchorY = math.min(math.max(y0/mat.height + 0.5,0),1)
-    print("anchors", anchorX, anchorY)
+    print("pie anchors", anchorX, anchorY)
 
     mat.anchorX, mat.anchorY = anchorX, anchorY
 

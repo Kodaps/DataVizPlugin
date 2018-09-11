@@ -26,8 +26,9 @@ local arc = shapes.newArc({
 	radius = radius,
 	stroke = 5,
 })
-
-arc.x, arc.y = halfW, screenH*.15
+arc.anchorX = 0
+arc.anchorY = 1
+arc.x, arc.y = halfW, screenH*.05
 
 local dot1 = shapes.newDot({x=arc.x, y=arc.y})
 
@@ -36,18 +37,18 @@ local hexagon = shapes.newRegularPolygon({
 	radius = radius
 })
 
-hexagon.x, hexagon.y = halfW, screenH*.4
+hexagon.x, hexagon.y = halfW, screenH*.25
 
 local dot3 = shapes.newDot({x=hexagon.x, y=hexagon.y})
 
 local pie, vector = shapes.newPie({
-	start_angle = 0,
-	end_angle = 70,
+	start_angle = 20,
+	end_angle = 60,
 	radius = radius,
 	stroke = 5,
 })
 
-pie.x, pie.y = halfW, screenH*.7
+pie.x, pie.y = halfW, screenH*.5
 
 if (vector) then
 	vector.x = pie.x
@@ -55,6 +56,20 @@ if (vector) then
 end
 
 local dot3 = shapes.newDot({x=pie.x, y=pie.y})
+
+
+local segment = shapes.newCircleSegment({
+	start_angle = 20,
+	end_angle = 190,
+	radius = radius,
+	stroke = 5,
+	inner_radius = radius*.8
+})
+
+
+segment.x, segment.y = halfW, screenH*.8
+
+local dot4 = shapes.newDot({x=segment.x, y=segment.y})
 
 -------------------------------------------------------------------------------
 -- END
