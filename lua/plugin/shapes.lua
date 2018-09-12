@@ -186,7 +186,7 @@ function lib.newDot(data)
 
 	data = data or {}
 
-    local mat = display.newCircle(data.x or 0, data.y or 0, 3)
+    local mat = display.newCircle(data.x or 0, data.y or 0, 1)
     mat:setFillColor(1,0,0)
 
     if data.parent then
