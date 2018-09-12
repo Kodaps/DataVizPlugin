@@ -61,15 +61,23 @@ local dot3 = shapes.newDot({x=pie.x, y=pie.y})
 
 
 local segment = shapes.newCircleSegment({
-	start_angle = 20,
-	end_angle = 290,
-	radius = radius,
+	start_angle = 0,
+	end_angle = 350,
+	radius = radius*2,
 	stroke = 5,
-	inner_radius = radius*.8
+	inner_radius = radius*1.5
 })
 
-segment.x, segment.y = halfW, screenH*.8
+segment.x, segment.y = halfW, screenH*.75
 elements.segment = segment
+
+local star = shapes.newStar({
+	nb = 6,
+	radius = radius,
+	radius2 = radius*.75
+})
+
+star.x, star.y = halfW, screenH*.85
 
 local dot4 = shapes.newDot({x=segment.x, y=segment.y})
 
@@ -79,7 +87,7 @@ local myListener = function( event )
 	end
 end
 
-Runtime:addEventListener( "enterFrame", myListener )
+--Runtime:addEventListener( "enterFrame", myListener )
 
 
 -------------------------------------------------------------------------------

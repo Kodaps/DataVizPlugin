@@ -33,13 +33,14 @@ local function reverse(start_angle, end_angle, radius)
 
     local x2 = -dcos(end_angle)*radius
     local y2 = -dsin(end_angle)*radius
-
     return (x1+x2)/2, (y1+y2)/2
 
 end
 
 
-local function arc(start_angle, end_angle, radius, step)
+local function arc(start_angle, end_angle, radius, step, offset)
+
+    offset = offset or 0
 
     local min_x = 1
     local min_y = 1
@@ -56,7 +57,6 @@ local function arc(start_angle, end_angle, radius, step)
 
     local _count = 1
 
-
     local function check(x,y)
 
         if x < min_x then min_x = x end
@@ -65,16 +65,13 @@ local function arc(start_angle, end_angle, radius, step)
         if y > max_y then max_y = y end
     end
 
-
     for deg = start_angle, end_angle, step do
-        local _x = radius*dcos(deg)
-        local _y = radius*dsin(deg)
+        local _x = radius*dcos(deg + offset)
+        local _y = radius*dsin(deg + offset)
         check(_x,_y)
         points[_count] = _x
-        points[_count+1] = _y
+        points[_count + 1] = _y
         _count = _count + 2
-
-
     end
 
     return points, min_x, min_y, max_x, max_y
@@ -126,13 +123,13 @@ function lib.newCircleSegment(data)
     if min_x < 0 and max_x > 0 then
         anchorX = - min_x / (max_x - min_x)
     else
-        anchorX = -1*(width/(2 * bcenter_x))
+        anchorX = 1 -1*(width/(2 * bcenter_x))
     end
 
     if min_y < 0 and max_y > 0 then
         anchorY = - min_y / (max_y - min_y)
     else
-        anchorY = -1*(width/(2 * bcenter_y))
+        anchorY = 1 -1*(height/(2 * bcenter_y))
     end
 
     data.anchorX = anchorX
@@ -193,9 +190,8 @@ function lib.newArc (data)
     local mat = display.newGroup()
 
     local center = lib.newDot({x=0, y=0})
-    center.alpha = 0 
+    center.alpha = 0
 
-	
 	local ret = arc(data.start_angle, data.end_angle, data.radius)
 
     local line = display.newLine(mat, unpack(ret))
@@ -261,10 +257,9 @@ function lib.newPie (data)
         data.parent:insert(mat)
     end
 
-	return mat, v
+	return mat
 
 end
-
 
 
 function lib.newRegularPolygon(data)
@@ -280,6 +275,47 @@ function lib.newRegularPolygon(data)
 	local ret = arc(0, 359, data.radius, step)
 
     local mat = display.newPolygon(0,0, ret)
+    mat.x = data.x or 0
+    mat.y = data.y or 0
+
+    if data.parent then
+        data.parent:insert(mat)
+    end
+
+	return mat
+
+end
+
+function lib.newStar(data)
+
+	data = data or {}
+
+	local nb = (data.nb or 3)
+
+	-- if nb < 3 then not a polygon
+
+	local step = 360/nb
+    data.radius2 = data.radius2 or data.radius/2
+
+	local ret1 = arc(0, 359, data.radius, step)
+    local ret2 = arc(0, 359, data.radius/2, step, step/2)
+
+    local ret = {}
+
+    local t = #ret1/2
+
+    for i=1,t do
+
+        local idx = i*4 -3
+        ret[idx] = ret1[i]
+        ret[idx + 1] = ret1[i + 1]
+        ret[idx + 2] = ret2[i]
+        ret[idx + 3] = ret2[i + 1]
+    end
+
+
+
+    local mat = display.newLine(unpack(ret))
     mat.x = data.x or 0
     mat.y = data.y or 0
 
