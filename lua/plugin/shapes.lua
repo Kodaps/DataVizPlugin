@@ -28,18 +28,11 @@ end
 
 local function reverse(start_angle, end_angle, radius)
 
-
-    print("angles", start_angle, end_angle)
-
     local x1 = -dcos(start_angle)*radius
     local y1 = -dsin(start_angle)*radius
 
-    print(x1, y1)
-
     local x2 = -dcos(end_angle)*radius
     local y2 = -dsin(end_angle)*radius
-
-    print(x2, y2)
 
     return (x1+x2)/2, (y1+y2)/2
 
@@ -114,8 +107,6 @@ function lib.newCircleSegment(data)
 	data = data or {}
 
     local ret, min_x, min_y, max_x, max_y  = arc(data.start_angle, data.end_angle, data.radius)
-
-    -- display.newLine(unpack(ret))
 
     local ret2,  min_x2, min_y2, max_x2, max_y2  = arc(data.end_angle, data.start_angle, data.inner_radius, -5)
 
@@ -200,8 +191,6 @@ end
 function lib.newArc (data)
 
     local mat = display.newGroup()
-    -- mat.anchorChildren = true
-
 
     local center = lib.newDot({x=0, y=0})
     center.alpha = 0 
@@ -211,8 +200,6 @@ function lib.newArc (data)
 
     local line = display.newLine(mat, unpack(ret))
     line.strokeWidth = data.stroke or 1
-
-    -- print("arc anchors", mat.anchorX, mat.anchorY)
 
     if data.parent then
         data.parent:insert(mat)
@@ -234,9 +221,6 @@ function lib.newPie (data)
 
 	local ret, min_x, min_y, max_x, max_y = arc(data.start_angle, data.end_angle, data.radius)
 
-
-    print("min/x,y", min_x, min_y, max_x, max_y )
-
     local anchorX, anchorY
 
     if min_y < 0 and max_y < 0 then
@@ -255,16 +239,12 @@ function lib.newPie (data)
         anchorX = 0
     end
 
-    print("pie anchors (wip)", anchorX, anchorY)
-
     if anchorX == nil then
-        -- min_x and max_x are not the same sign so min_x < 0 and max_x > 0
         anchorX = - min_x / (max_x - min_x)
     end
 
 
     if anchorY == nil then
-        -- min_x and max_x are not the same sign so min_x < 0 and max_x > 0
         anchorY = - min_y / (max_y - min_y)
     end
 
@@ -274,9 +254,6 @@ function lib.newPie (data)
 
 
     local mat = display.newPolygon(0,0, ret)
-    -- mat.strokeWidth = data.stroke or 1
-
-    print("pie anchors", anchorX, anchorY)
 
     mat.anchorX, mat.anchorY = anchorX, anchorY
 
