@@ -124,14 +124,28 @@ function lib.newCircleSegment(data)
     max_x =math.max(max_x, max_x2)
     max_y =math.min(max_y, max_y2)
 
+    local anchorX, anchorY
 
     local bcenter_x = (min_x+max_x)/2
     local bcenter_y = (min_y+max_y)/2
 
-    if min_x < 0 and max_x > 0 then 
+    local width = max_x - min_x
+    local height = max_y - min_y
+
+    if min_x < 0 and max_x > 0 then
+        anchorX = - min_x / (max_x - min_x)
+    else
+        anchorX = -1*(width/(2 * bcenter_x))
     end
 
+    if min_y < 0 and max_y > 0 then
+        anchorY = - min_y / (max_y - min_y)
+    else
+        anchorY = -1*(width/(2 * bcenter_y))
+    end
 
+    data.anchorX = anchorX
+    data.anchorY = anchorY
 
     local idx = #ret
 
