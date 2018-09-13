@@ -98,7 +98,7 @@ local function arc(start_angle, end_angle, radius, step, offset)
 end
 
 
-function manage(mat, data)
+local function manage(mat, data)
 
     if data.strokeWidth then
         mat.strokeWidth = data.strokeWidth
@@ -143,14 +143,14 @@ function lib.color(...)
 end
 
 --- create a circle segment
--- @tparam table data a table with : radius, start_angle, end_angle, (inner_raidus)
--- @return a polygon DisplayObject anchored in the center of the circle
+-- @tparam table data a table with : `radius`, `start_angle` (in degrees), `end_angle` (in degrees), and `inner_radius`
+-- @return a polygon DisplayObject anchored arc in the center of the circle
 -- @usage local segment = dataviz.newCircleSegment({
 --	  start_angle = 0,
 --	  end_angle = 60,
---	  radius = radius,
+--	  radius = 100,
 --	  stroke = 5,
---	  inner_radius = radius*.5,
+--	  inner_radius = 50,
 --	  color = "#222F",
 --	  strokeColor = "#0FF",
 --	  strokeWidth = 1
@@ -302,6 +302,17 @@ function lib.newArc (data)
 
 end
 
+--- create an pie slice anchored in the center of the circle
+-- @tparam table data a table
+-- @return a DisplayObject polygon 
+-- @usage local pie = dataviz.newPie({
+--    start_angle = 20,
+-- 	  end_angle = 60,
+-- 	  radius = radius*1.3,
+-- 	  stroke = 5,
+-- 	  color = "#f492a5"
+-- })
+
 function lib.newPie (data)
 
 	data = data or {}
@@ -356,6 +367,16 @@ function lib.newPie (data)
 
 end
 
+--- create an n-sided regular polygon
+-- @tparam table data a table with
+-- `nb` : number of sides, 
+-- `radius` : radius of the circle that would contain the polygon 
+-- @return a DisplayObject polygon 
+-- @usage local pie = dataviz.newRegularPolygon({
+--    nb = 5, -- let's make a pentagon
+--	  radius = radius,
+--	  color = "#6e82b7"
+-- })
 
 function lib.newRegularPolygon(data)
 
@@ -374,6 +395,19 @@ function lib.newRegularPolygon(data)
     return manage(mat, data)
 
 end
+
+--- create an n-pointed star
+-- @tparam table data a table with
+-- `nb`     : number of sides, 
+-- `radius` : length of the star arms
+-- `inner_radius` : the distance of the "valleys" of the star from the center
+-- @return a DisplayObject polygon
+-- @usage local str = dataviz.newStar({
+--	 nb = 6, -- it's a star of David. sort of.
+--	 radius =  100,
+--	 inner_radius = 50,
+--	 color = '#f7e8d8',
+-- })
 
 function lib.newStar(data)
 
@@ -397,7 +431,7 @@ function lib.newStar(data)
         if idx == 0 or idx == 1 then
             v = v * data.radius
         else
-            v = v * (data.radius2 or data.radius*.5)
+            v = v * (data.inner_radius or data.radius*.5)
         end
         table.insert(ret,v)
 

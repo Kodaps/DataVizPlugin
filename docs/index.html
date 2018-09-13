@@ -47,8 +47,12 @@
 <div id="content">
 
 <h1>Module <code>plugin.dataviz</code></h1>
-<p>DataViz plugin Description can continue after simple tags, if you like - but to keep backwards compatibility, say ‘not_luadoc=true’</p>
-<p></p>
+<p>DataViz plugin
+ Description can continue after simple tags, if you
+ like - but to keep backwards compatibility, say 'not_luadoc=true'</p>
+<p>
+
+</p>
     <h3>Info:</h3>
     <ul>
         <li><strong>Copyright</strong>: Kodaps 2018</li>
@@ -75,6 +79,18 @@
 	<td class="name" nowrap><a href="#newArc">newArc (data)</a></td>
 	<td class="summary">create an arc anchored in the center of the circle</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#newPie">newPie (data)</a></td>
+	<td class="summary">create an pie slice anchored in the center of the circle</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#newRegularPolygon">newRegularPolygon (data)</a></td>
+	<td class="summary">create an n-sided regular polygon</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#newStar">newStar (data)</a></td>
+	<td class="summary">create an n-pointed star</td>
+	</tr>
 </table>
 
 <br/>
@@ -95,6 +111,8 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">...</span>
+
+
 
         </li>
     </ul>
@@ -121,14 +139,14 @@
     <ul>
         <li><span class="parameter">data</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-        a table with : radius, start<em>angle, end</em>angle, (inner_raidus)
+         a table with : <code>radius</code>, <code>start_angle</code> (in degrees), <code>end_angle</code> (in degrees), and <code>inner_radius</code>
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-        a polygon DisplayObject anchored in the center of the circle
+        a polygon DisplayObject anchored arc in the center of the circle
     </ol>
 
 
@@ -138,9 +156,9 @@
         <pre class="example"><span class="keyword">local</span> segment = dataviz.newCircleSegment({
   start_angle = <span class="number">0</span>,
   end_angle = <span class="number">60</span>,
-  radius = radius,
+  radius = <span class="number">100</span>,
   stroke = <span class="number">5</span>,
-  inner_radius = radius*.<span class="number">5</span>,
+  inner_radius = <span class="number">50</span>,
   color = <span class="string">"#222F"</span>,
   strokeColor = <span class="string">"#0FF"</span>,
   strokeWidth = <span class="number">1</span>
@@ -160,7 +178,7 @@
     <ul>
         <li><span class="parameter">data</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-        a table
+         a table
         </li>
     </ul>
 
@@ -193,7 +211,11 @@
     <ul>
         <li><span class="parameter">data</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-        a table First Header | Second Header ----------— | ----------— Content Cell | Content Cell Content Cell | Content Cell
+         a table
+ First Header  | Second Header
+ ------------- | -------------
+ Content Cell  | Content Cell
+ Content Cell  | Content Cell
         </li>
     </ul>
 
@@ -217,6 +239,116 @@ strokeColor = <span class="string">"#A00"</span>
     </ul>
 
 </dd>
+    <dt>
+    <a name = "newPie"></a>
+    <strong>newPie (data)</strong>
+    </dt>
+    <dd>
+    create an pie slice anchored in the center of the circle
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         a table
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        a DisplayObject polygon
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> pie = dataviz.newPie({
+   start_angle = <span class="number">20</span>,
+	  end_angle = <span class="number">60</span>,
+	  radius = radius*<span class="number">1.3</span>,
+	  stroke = <span class="number">5</span>,
+	  color = <span class="string">"#f492a5"</span>
+})</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "newRegularPolygon"></a>
+    <strong>newRegularPolygon (data)</strong>
+    </dt>
+    <dd>
+    create an n-sided regular polygon
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         a table with
+ <code>nb</code> : number of sides,
+ <code>radius</code> : radius of the circle that would contain the polygon
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        a DisplayObject polygon
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> pie = dataviz.newRegularPolygon({
+   nb = <span class="number">5</span>, <span class="comment">-- let's make a pentagon
+</span>  radius = radius,
+  color = <span class="string">"#6e82b7"</span>
+})</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "newStar"></a>
+    <strong>newStar (data)</strong>
+    </dt>
+    <dd>
+    create an n-pointed star
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         a table with
+ <code>nb</code>     : number of sides,
+ <code>radius</code> : length of the star arms
+ <code>inner_radius</code> : the distance of the "valleys" of the star from the center
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        a DisplayObject polygon
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> str = dataviz.newStar({
+ nb = <span class="number">6</span>, <span class="comment">-- it's a star of David. sort of.
+</span> radius =  <span class="number">100</span>,
+ inner_radius = <span class="number">50</span>,
+ color = <span class="string">'#f7e8d8'</span>,
+})</pre>
+    </ul>
+
+</dd>
 </dl>
 
 
@@ -224,7 +356,7 @@ strokeColor = <span class="string">"#A00"</span>
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2018-09-13 21:17:12 </i>
+<i style="float:right;">Last updated 2018-09-13 21:59:32 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
