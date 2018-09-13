@@ -70,6 +70,7 @@ local segment = shapes.newCircleSegment({
 
 segment.x, segment.y = halfW, screenH*.75
 elements.segment = segment
+local dot4 = shapes.newDot({x=segment.x, y=segment.y})
 
 local star = shapes.newStar({
 	nb = 6,
@@ -78,16 +79,18 @@ local star = shapes.newStar({
 })
 
 star.x, star.y = halfW, screenH*.85
+elements.star = star
+local dot5 = shapes.newDot({x=star.x, y=star.y})
 
-local dot4 = shapes.newDot({x=segment.x, y=segment.y})
+
 
 local myListener = function( event )
 	for k,v in pairs(elements) do
-		v.rotation = v.rotation + 5
+		v.rotation = v.rotation + 2
 	end
 end
 
---Runtime:addEventListener( "enterFrame", myListener )
+Runtime:addEventListener( "enterFrame", myListener )
 
 
 -------------------------------------------------------------------------------

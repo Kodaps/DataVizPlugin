@@ -41,17 +41,18 @@ end
 local function arc(start_angle, end_angle, radius, step, offset)
 
     offset = offset or 0
+    radius = radius or 1
+    step = step or 5
+
+    if (end_angle - start_angle) * step < 0 then
+        step = step * -1
+    end
 
     local min_x = 1
     local min_y = 1
     local max_x = -1
     local max_y = -1
 
-    step = step or 5
-
-    if (end_angle - start_angle) * step < 0 then
-        step = step * -1
-    end
 
     local points = {}
 
@@ -294,28 +295,28 @@ function lib.newStar(data)
 
 	-- if nb < 3 then not a polygon
 
-	local step = 360/nb
-    data.radius2 = data.radius2 or data.radius/2
+	local step = 360/(2*nb)
+	local ret1 = arc(0, 359, 1, step)
 
-	local ret1 = arc(0, 359, data.radius, step)
-    local ret2 = arc(0, 359, data.radius/2, step, step/2)
 
     local ret = {}
+    
 
-    local t = #ret1/2
+    for k,v in ipairs(ret1) do 
 
-    for i=1,t do
+        local idx = (k-1) % 4
 
-        local idx = i*4 -3
-        ret[idx] = ret1[i]
-        ret[idx + 1] = ret1[i + 1]
-        ret[idx + 2] = ret2[i]
-        ret[idx + 3] = ret2[i + 1]
+        if idx == 0 or idx == 1 then
+            v = v * data.radius
+        else
+            v = v * (data.radius2 or data.radius*.5)
+        end
+        table.insert(ret,v)
+
     end
 
 
-
-    local mat = display.newLine(unpack(ret))
+    local mat = display.newPolygon(0,0, ret)
     mat.x = data.x or 0
     mat.y = data.y or 0
 
