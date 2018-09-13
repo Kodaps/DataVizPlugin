@@ -109,6 +109,8 @@ function manage(mat, data)
     mat.anchorX = data.anchorX or 0.5
     mat.anchorY = data.anchorY or 0.5
 
+    if data.alpha then mat.alpha = data.alpha end 
+
     if data.color then
         mat:setFillColor(colors(data.color))
     end

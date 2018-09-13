@@ -21,12 +21,28 @@ local w, h = 50, 50
 local x, y = display.contentCenterX, display.contentCenterY
 local radius = screenH*.1
 
+local star = dataviz.newStar({
+	nb = 6,
+	radius =  radius * 2,
+	radius2 = radius * .75,
+	color = '#f7e8d8',
+	--alpha = .7
+})
+
+star.x, star.y = halfW, screenH*.25
+star.speed = -1.2
+
+elements.star = star
+
+local dot5 = dataviz.newDot({x=star.x, y=star.y})
+
+
 local arc = dataviz.newArc({
 	start_angle = 20,
 	end_angle = 90,
 	radius = radius*2,
 	strokeWidth = 2,
-	strokeColor = "#A00"
+	strokeColor = "#95daf8"
 })
 
 arc.speed = 0.3
@@ -40,7 +56,7 @@ local dot1 = dataviz.newDot({x=arc.x, y=arc.y})
 local hexagon = dataviz.newRegularPolygon({
 	nb = 5,
 	radius = radius,
-	color = "#AB0"
+	color = "#6e82b7"
 })
 
 elements.hexogon = hexagon
@@ -55,6 +71,7 @@ local pie = dataviz.newPie({
 	end_angle = 60,
 	radius = radius*1.3,
 	stroke = 5,
+	color = "#f492a5"
 })
 
 pie.x, pie.y = halfW, screenH*.25
@@ -68,11 +85,10 @@ local segment = dataviz.newCircleSegment({
 	start_angle = 0,
 	end_angle = 60,
 	radius = radius,
-	stroke = 5,
 	inner_radius = radius*.5,
-	color = "#222F",
-	strokeColor = "#0FF",
-	strokeWidth = 1
+	color = "#f9cbd0",
+	strokeColor = "#FFF",
+	strokeWidth = 2
 })
 
 segment.speed = 1.8
@@ -81,19 +97,7 @@ segment.x, segment.y = halfW, screenH*.75
 elements.segment = segment
 local dot4 = dataviz.newDot({x=segment.x, y=segment.y})
 
-local star = dataviz.newStar({
-	nb = 6,
-	radius =  radius * 2,
-	radius2 = radius * .75,
-	color = "#0AF7"
-})
 
-star.x, star.y = halfW, screenH*.25
-star.speed = -1.2
-
-elements.star = star
-
-local dot5 = dataviz.newDot({x=star.x, y=star.y})
 
 
 local myListener = function( event )
