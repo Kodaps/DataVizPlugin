@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>DataViz plugin for Corona SDK</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>plugin.dataviz</strong></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="topics/README.md.html">README</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>plugin.dataviz</code></h1>
+<p>DataViz plugin Description can continue after simple tags, if you like - but to keep backwards compatibility, say ‘not_luadoc=true’</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: Kodaps 2018</li>
+        <li><strong>Release</strong>: 0.2</li>
+        <li><strong>Author</strong>: hockley, david</li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#color">color (...)</a></td>
+	<td class="summary">color function</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#newCircleSegment">newCircleSegment (data)</a></td>
+	<td class="summary">create a circle segment</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#newDot">newDot (data)</a></td>
+	<td class="summary">create a dot</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#newArc">newArc (data)</a></td>
+	<td class="summary">create an arc anchored in the center of the circle</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "color"></a>
+    <strong>color (...)</strong>
+    </dt>
+    <dd>
+    color function
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        an unpacked set of floats
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "newCircleSegment"></a>
+    <strong>newCircleSegment (data)</strong>
+    </dt>
+    <dd>
+    create a circle segment
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.2/manual.html#6.5">table</a></span>
+        a table with : radius, start<em>angle, end</em>angle, (inner_raidus)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        a polygon DisplayObject anchored in the center of the circle
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> segment = dataviz.newCircleSegment({
+  start_angle = <span class="number">0</span>,
+  end_angle = <span class="number">60</span>,
+  radius = radius,
+  stroke = <span class="number">5</span>,
+  inner_radius = radius*.<span class="number">5</span>,
+  color = <span class="string">"#222F"</span>,
+  strokeColor = <span class="string">"#0FF"</span>,
+  strokeWidth = <span class="number">1</span>
+)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "newDot"></a>
+    <strong>newDot (data)</strong>
+    </dt>
+    <dd>
+    create a dot
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.2/manual.html#6.5">table</a></span>
+        a table
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        a small circle DisplayObject
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> segment = dataviz.newDot({
+  x = <span class="number">100</span>,
+  y = <span class="number">30</span>
+)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "newArc"></a>
+    <strong>newArc (data)</strong>
+    </dt>
+    <dd>
+    create an arc anchored in the center of the circle
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.2/manual.html#6.5">table</a></span>
+        a table First Header | Second Header ----------— | ----------— Content Cell | Content Cell Content Cell | Content Cell
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        a DisplayObject group containing a Line and a Dot
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> arc = dataviz.newArc({
+start_angle = <span class="number">20</span>,
+end_angle = <span class="number">90</span>,
+radius = <span class="number">200</span>,
+strokeWidth = <span class="number">5</span>,
+strokeColor = <span class="string">"#A00"</span>
+)</pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2018-09-13 18:41:44 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
