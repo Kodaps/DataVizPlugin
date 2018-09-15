@@ -106,29 +106,29 @@ local function arc(start_angle, end_angle, radius, step, offset)
 end
 
 
-local function manage(mat, data)
+local function manage(mat, options)
 
-    if data.strokeWidth then
-        mat.strokeWidth = data.strokeWidth
+    if options.strokeWidth then
+        mat.strokeWidth = options.strokeWidth
     end
 
-    mat.x = data.x or 0
-    mat.y = data.y or 0
-    mat.anchorX = data.anchorX or 0.5
-    mat.anchorY = data.anchorY or 0.5
+    mat.x = options.x or 0
+    mat.y = options.y or 0
+    mat.anchorX = options.anchorX or 0.5
+    mat.anchorY = options.anchorY or 0.5
 
-    if data.alpha then mat.alpha = data.alpha end 
+    if options.alpha then mat.alpha = options.alpha end 
 
-    if data.color then
-        mat:setFillColor(colors(data.color))
+    if options.color then
+        mat:setFillColor(colors(options.color))
     end
 
-    if data.strokeColor then
-        mat:setStrokeColor(colors(data.strokeColor))
+    if options.strokeColor then
+        mat:setStrokeColor(colors(options.strokeColor))
     end
 
-    if data.parent then
-        data.parent:insert(mat)
+    if options.parent then
+        options.parent:insert(mat)
     end
 
     return mat
@@ -205,9 +205,8 @@ end
 -- @section shapes
 
 
-
 --- create a circle segment
--- @tparam table data a table with : `radius`, `start_angle` (in degrees), `end_angle` (in degrees), and `inner_radius`
+-- @tparam table options a table with : `radius`, `start_angle` (in degrees), `end_angle` (in degrees), and `inner_radius`
 -- @return a polygon DisplayObject anchored arc in the center of the circle
 -- @usage local segment = dataviz.newCircleSegment({
 --	  start_angle = 0,
@@ -220,14 +219,14 @@ end
 --	  strokeWidth = 1
 --})
 
-function lib.newCircleSegment(data)
+function lib.newCircleSegment(options)
 
-	data = data or {}
+	options = options or {}
 
-    local ret1, min_x, min_y, max_x, max_y  = arc(data.start_angle, data.end_angle, 1)
+    local ret1, min_x, min_y, max_x, max_y  = arc(options.start_angle, options.end_angle, 1)
 
-    local radius = data.radius
-    local radius2 = data.inner_radius or data.radius * .9
+    local radius = options.radius
+    local radius2 = options.inner_radius or options.radius * .9
 
 
     min_x = math.min(min_x * radius, min_x * radius2)
@@ -275,29 +274,29 @@ function lib.newCircleSegment(data)
         anchorY = 1 - 1 * (height/(2 * bcenter_y))
     end
 
-    data.anchorX = anchorX
-    data.anchorY = anchorY
+    options.anchorX = anchorX
+    options.anchorY = anchorY
 
     local mat = display.newPolygon(0,0, ret)
 
-	return manage(mat,data)
+	return manage(mat,options)
 
 end
 
 
 
-function lib.newVector(data)
+function lib.newVector(options)
     --
 
-    if #data == 1 then
-        table.insert(data, 1, {0,0})
+    if #options == 1 then
+        table.insert(options, 1, {0,0})
     end
 
     local bits = {
-        data[1][1],
-        data[1][2],
-        data[2][1],
-        data[2][2]
+        options[1][1],
+        options[1][2],
+        options[2][1],
+        options[2][2]
     }
 
 	local line = display.newLine(unpack(bits))
@@ -309,26 +308,26 @@ end
 
 
 --- create a dot
--- @tparam table data a table 
+-- @tparam table options a table 
 -- @return a small circle DisplayObject 
 -- @usage local segment = dataviz.newDot({
 --	  x = 100,
 --	  y = 30
 --})
 
-function lib.newDot(data)
+function lib.newDot(options)
 
-	data = data or {}
+	options = options or {}
 
-    local mat = display.newCircle(data.x or 0, data.y or 0, 1)
+    local mat = display.newCircle(options.x or 0, options.y or 0, 1)
     mat:setFillColor(1,0,0)
 
-	return manage(mat,data)
+	return manage(mat,options)
 
 end
 
 --- create an arc anchored in the center of the circle
--- @tparam table data a table
+-- @tparam table options a table
 -- @return a DisplayObject group containing a Line and a Dot
 -- @usage local arc = dataviz.newArc({
 --	start_angle = 20,
@@ -338,32 +337,32 @@ end
 --	strokeColor = "#A00"
 --})
 
-function lib.newArc (data)
+function lib.newArc (options)
 
     local mat = display.newGroup()
 
     local center = lib.newDot({parent = mat, x=0, y=0})
     center.alpha = 0
 
-	local ret = arc(data.start_angle, data.end_angle, data.radius)
+	local ret = arc(options.start_angle, options.end_angle, options.radius)
 
     local line = display.newLine(mat, unpack(ret))
-    line.strokeWidth = data.strokeWidth or 1
+    line.strokeWidth = options.strokeWidth or 1
 
-    if data.parent then
-        data.parent:insert(mat)
+    if options.parent then
+        options.parent:insert(mat)
     end
 
     function mat:setStrokeColor(...)
         return line:setStrokeColor(...)
     end
 
-	return manage(mat,data)
+	return manage(mat,options)
 
 end
 
 --- create an pie slice anchored in the center of the circle
--- @tparam table data a table
+-- @tparam table options a table
 -- @return a DisplayObject polygon 
 -- @usage local pie = dataviz.newPie({
 --    start_angle = 20,
@@ -373,17 +372,17 @@ end
 -- 	  color = "#f492a5"
 -- })
 
-function lib.newPie (data)
+function lib.newPie (options)
 
-	data = data or {}
+	options = options or {}
 
-    if data.start_angle > data.end_angle then
-        local _ = data.end_angle
-        data.end_angle = data.start_angle
-        data.start_angle = _
+    if options.start_angle > options.end_angle then
+        local _ = options.end_angle
+        options.end_angle = options.start_angle
+        options.start_angle = _
     end
 
-	local ret, min_x, min_y, max_x, max_y = arc(data.start_angle, data.end_angle, data.radius)
+	local ret, min_x, min_y, max_x, max_y = arc(options.start_angle, options.end_angle, options.radius)
 
     local anchorX, anchorY
 
@@ -419,16 +418,16 @@ function lib.newPie (data)
 
     local mat = display.newPolygon(0,0, ret)
 
-    data.anchorX, data.anchorY = anchorX, anchorY
+    options.anchorX, options.anchorY = anchorX, anchorY
 
 
-	return manage(mat,data)
+	return manage(mat,options)
 
 
 end
 
 --- create an n-sided regular polygon
--- @tparam table data a table with
+-- @tparam table options a table with
 -- `nb` : number of sides, 
 -- `radius` : radius of the circle that would contain the polygon 
 -- @return a DisplayObject polygon 
@@ -438,26 +437,26 @@ end
 --	  color = "#6e82b7"
 -- })
 
-function lib.newRegularPolygon(data)
+function lib.newRegularPolygon(options)
 
-	data = data or {}
+	options = options or {}
 
-	local nb = (data.nb or 3)
+	local nb = (options.nb or 3)
 
 	-- if nb < 3 then not a polygon
 
 	local step = 360/nb
 
-	local ret = arc(0, 359, data.radius, step)
+	local ret = arc(0, 359, options.radius, step)
 
     local mat = display.newPolygon(0,0, ret)
 
-    return manage(mat, data)
+    return manage(mat, options)
 
 end
 
 --- create an n-pointed star
--- @tparam table data a table with
+-- @tparam table options a table with
 -- `nb`     : number of sides, 
 -- `radius` : length of the star arms
 -- `inner_radius` : the distance of the "valleys" of the star from the center
@@ -469,11 +468,11 @@ end
 --	 color = '#f7e8d8',
 -- })
 
-function lib.newStar(data)
+function lib.newStar(options)
 
-	data = data or {}
+	options = options or {}
 
-	local nb = (data.nb or 3)
+	local nb = (options.nb or 3)
 
 	-- if nb < 3 then not a polygon
 
@@ -489,9 +488,9 @@ function lib.newStar(data)
         local idx = (k-1) % 4
 
         if idx == 0 or idx == 1 then
-            v = v * data.radius
+            v = v * options.radius
         else
-            v = v * (data.inner_radius or data.radius*.5)
+            v = v * (options.inner_radius or options.radius*.5)
         end
         table.insert(ret,v)
 
@@ -499,7 +498,7 @@ function lib.newStar(data)
 
 
     local mat = display.newPolygon(0,0, ret)
-    return manage(mat, data)
+    return manage(mat, options)
 
 
 end

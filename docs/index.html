@@ -83,27 +83,27 @@
 <h2><a href="#Shape_functions">Shape functions </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#newCircleSegment">newCircleSegment (data)</a></td>
+	<td class="name" nowrap><a href="#newCircleSegment">newCircleSegment (options)</a></td>
 	<td class="summary">create a circle segment</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#newDot">newDot (data)</a></td>
+	<td class="name" nowrap><a href="#newDot">newDot (options)</a></td>
 	<td class="summary">create a dot</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#newArc">newArc (data)</a></td>
+	<td class="name" nowrap><a href="#newArc">newArc (options)</a></td>
 	<td class="summary">create an arc anchored in the center of the circle</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#newPie">newPie (data)</a></td>
+	<td class="name" nowrap><a href="#newPie">newPie (options)</a></td>
 	<td class="summary">create an pie slice anchored in the center of the circle</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#newRegularPolygon">newRegularPolygon (data)</a></td>
+	<td class="name" nowrap><a href="#newRegularPolygon">newRegularPolygon (options)</a></td>
 	<td class="summary">create an n-sided regular polygon</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#newStar">newStar (data)</a></td>
+	<td class="name" nowrap><a href="#newStar">newStar (options)</a></td>
 	<td class="summary">create an n-pointed star</td>
 	</tr>
 </table>
@@ -252,7 +252,7 @@ shape:setFillColor(dataviz.color(<span class="string">'a700'</span>))</pre>
     <dl class="function">
     <dt>
     <a name = "newCircleSegment"></a>
-    <strong>newCircleSegment (data)</strong>
+    <strong>newCircleSegment (options)</strong>
     </dt>
     <dd>
     create a circle segment
@@ -260,7 +260,7 @@ shape:setFillColor(dataviz.color(<span class="string">'a700'</span>))</pre>
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">data</span>
+        <li><span class="parameter">options</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
          a table with : <code>radius</code>, <code>start_angle</code> (in degrees), <code>end_angle</code> (in degrees), and <code>inner_radius</code>
         </li>
@@ -291,7 +291,7 @@ shape:setFillColor(dataviz.color(<span class="string">'a700'</span>))</pre>
 </dd>
     <dt>
     <a name = "newDot"></a>
-    <strong>newDot (data)</strong>
+    <strong>newDot (options)</strong>
     </dt>
     <dd>
     create a dot
@@ -299,7 +299,7 @@ shape:setFillColor(dataviz.color(<span class="string">'a700'</span>))</pre>
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">data</span>
+        <li><span class="parameter">options</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
          a table
         </li>
@@ -324,7 +324,7 @@ shape:setFillColor(dataviz.color(<span class="string">'a700'</span>))</pre>
 </dd>
     <dt>
     <a name = "newArc"></a>
-    <strong>newArc (data)</strong>
+    <strong>newArc (options)</strong>
     </dt>
     <dd>
     create an arc anchored in the center of the circle
@@ -332,7 +332,7 @@ shape:setFillColor(dataviz.color(<span class="string">'a700'</span>))</pre>
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">data</span>
+        <li><span class="parameter">options</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
          a table
         </li>
@@ -360,7 +360,7 @@ strokeColor = <span class="string">"#A00"</span>
 </dd>
     <dt>
     <a name = "newPie"></a>
-    <strong>newPie (data)</strong>
+    <strong>newPie (options)</strong>
     </dt>
     <dd>
     create an pie slice anchored in the center of the circle
@@ -368,7 +368,7 @@ strokeColor = <span class="string">"#A00"</span>
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">data</span>
+        <li><span class="parameter">options</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
          a table
         </li>
@@ -396,7 +396,7 @@ strokeColor = <span class="string">"#A00"</span>
 </dd>
     <dt>
     <a name = "newRegularPolygon"></a>
-    <strong>newRegularPolygon (data)</strong>
+    <strong>newRegularPolygon (options)</strong>
     </dt>
     <dd>
     create an n-sided regular polygon
@@ -404,7 +404,7 @@ strokeColor = <span class="string">"#A00"</span>
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">data</span>
+        <li><span class="parameter">options</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
          a table with
  <code>nb</code> : number of sides,
@@ -432,7 +432,7 @@ strokeColor = <span class="string">"#A00"</span>
 </dd>
     <dt>
     <a name = "newStar"></a>
-    <strong>newStar (data)</strong>
+    <strong>newStar (options)</strong>
     </dt>
     <dd>
     create an n-pointed star
@@ -440,7 +440,7 @@ strokeColor = <span class="string">"#A00"</span>
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">data</span>
+        <li><span class="parameter">options</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
          a table with
  <code>nb</code>     : number of sides,
@@ -475,7 +475,7 @@ strokeColor = <span class="string">"#A00"</span>
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2018-09-15 12:04:50 </i>
+<i style="float:right;">Last updated 2018-09-15 12:10:02 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
