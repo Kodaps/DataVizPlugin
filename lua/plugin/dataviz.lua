@@ -144,6 +144,11 @@ end
      idx ter = (max_idx * 2 + (max_idx - idx - 1)*2 + 1 or 2 )
 ]]
 
+--- Color functions.
+-- Useful utilities for manipulating and getting colors
+-- @section colors
+
+
 --- set material palette
 -- @treturn boolean load success or failure 
 -- @usage dataviz.addNamedColors({
@@ -194,6 +199,12 @@ end
 function lib.color(...)
     return colors(...)
 end
+
+--- Shape functions.
+-- Useful utilities for creating shapes
+-- @section shapes
+
+
 
 --- create a circle segment
 -- @tparam table data a table with : `radius`, `start_angle` (in degrees), `end_angle` (in degrees), and `inner_radius`
