@@ -254,6 +254,13 @@ function colors:muted()
     end
 end
 
+local _palette
+
+function colors:setPalette( _pal)
+  _palette = _pal  
+end 
+
+
 function colors:get_color(_c)
 
   if type(_c) == 'table' then
@@ -261,8 +268,9 @@ function colors:get_color(_c)
       return _cols[_c.color][_c.shade]
     else 
       return _c 
-    end 
+    end
   end
+
 
   if type(_c) == 'string' then
 
@@ -270,15 +278,29 @@ function colors:get_color(_c)
       return hex2rgb(_namedColors[_c])
     end
 
+    print("_palette is ", _palette, "cols = ", _cols[_palette or ""], " index is ",_c,_cols[_palette or ""][_c or ""])
+    if _cols[_palette or ""] and _cols[_palette or ""][_c or ""] then 
+      return _cols[_palette or ""][_c or ""]
+    end  
+
+
     return hex2rgb(_c)
   end
 
+end
+
+function colors:addNamedColors(_namedCols)
+  for k,v in pairs(_namedColors or {}) do
+    _namedColors[k] = v 
+  end
 end
 
 function colors:getColor(key)
   local _col = self:get_color(key)
   return unpack(_col)
 end
+
+
 
 function colors:setup(colordata, _pal)
 
@@ -294,9 +316,12 @@ function colors:setup(colordata, _pal)
   if _pal then
     primary = self:get_color(_pal.primary)
     accent = self:get_color(_pal.accent)
+    
+    -- _namedColors = _pal
+
   end
 
-  _namedColors = _pal 
+
 
 end
 

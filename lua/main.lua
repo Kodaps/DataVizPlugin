@@ -9,6 +9,9 @@
 -- Load plugin library
 local dataviz = require "plugin.dataviz"
 
+dataviz.setPalette("deeporange")
+display.setDefault("background", dataviz.color("50"))
+
 -------------------------------------------------------------------------------
 -- BEGIN (Insert your sample test starting here)
 -------------------------------------------------------------------------------
@@ -25,7 +28,7 @@ local star = dataviz.newStar({
 	nb = 6,
 	radius =  radius * 2,
 	radius2 = radius * .75,
-	color = '#f7e8d8',
+	color = "100" -- '#f7e8d8',
 	--alpha = .7
 })
 
@@ -42,7 +45,7 @@ local arc = dataviz.newArc({
 	end_angle = 90,
 	radius = radius*2,
 	strokeWidth = 2,
-	strokeColor = "#95daf8"
+	strokeColor = "300" -- "#95daf8"
 })
 
 arc.speed = 0.3
@@ -56,7 +59,7 @@ local dot1 = dataviz.newDot({x=arc.x, y=arc.y})
 local hexagon = dataviz.newRegularPolygon({
 	nb = 5,
 	radius = radius,
-	color = "#6e82b7"
+	color = "400" -- "#6e82b7"
 })
 
 elements.hexogon = hexagon
@@ -71,7 +74,7 @@ local pie = dataviz.newPie({
 	end_angle = 60,
 	radius = radius*1.3,
 	stroke = 5,
-	color = "#f492a5"
+	color = "500" -- "#f492a5"
 })
 
 pie.x, pie.y = halfW, screenH*.25
@@ -84,10 +87,10 @@ local dot3 = dataviz.newDot({x=pie.x, y=pie.y})
 local segment = dataviz.newCircleSegment({
 	start_angle = 0,
 	end_angle = 60,
-	radius = radius,
-	inner_radius = radius*.5,
-	color = "#f9cbd0",
-	strokeColor = "#FFF",
+	radius = radius*1.9,
+	inner_radius = radius*1.7,
+	color = "600", -- "#f9cbd0",
+	strokeColor = "700", -- "#FFF",
 	strokeWidth = 2
 })
 
@@ -96,8 +99,6 @@ segment.speed = 1.8
 segment.x, segment.y = halfW, screenH*.75
 elements.segment = segment
 local dot4 = dataviz.newDot({x=segment.x, y=segment.y})
-
-
 
 
 local myListener = function( event )

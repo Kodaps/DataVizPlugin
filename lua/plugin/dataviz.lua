@@ -1,7 +1,6 @@
 ------------
 -- DataViz plugin
--- Description can continue after simple tags, if you
--- like - but to keep backwards compatibility, say 'not_luadoc=true'
+-- Shapes and color manipulation with a view to dataviz and charting
 -- @module plugin.dataviz
 -- @author hockley, david
 -- @copyright Kodaps 2018
@@ -14,8 +13,17 @@ local Library = require "CoronaLibrary"
 -- @class plugin
 local lib = Library:new({ name='plugin.dataviz', publisherId='com.kodaps' })
 
-
 local colors = require "plugin.dataviz.colors"
+local palette = require "plugin.dataviz.palette"
+
+local _paletteNames = {}
+for k,v in pairs(palette) do 
+    table.insert(_paletteNames, k)
+end
+
+colors:setup(palette)
+
+local _palette = nil
 
 display.setDefault( "isAnchorClamped", false )
 
@@ -136,10 +144,57 @@ end
      idx ter = (max_idx * 2 + (max_idx - idx - 1)*2 + 1 or 2 )
 ]]
 
+--- set material palette
+--@treturn boolean load success or failure 
+--@usage dataviz.addNamedColors({
+--  red = "#F00",
+--  green = "#0F0"
+--})
+--shape:setLineColor(dataviz.color("green"))
+
+function lib.addNamedColors(_cols)
+    colors:addNamedColors(_cols)
+end
+
+--- set material palette
+--@treturn boolean load success or failure 
+--@usage local result = dataviz.setPalette("blue")
+
+function lib.setPalette(name)
+
+    assert( name ~= nil, "'setPalette' you need to specify a name" )
+    if palette[name] then 
+        _palette = name
+        colors:setPalette(name)
+        return true
+    end
+
+    return false
+end
+
+
+--- set material palette
+-- @treturn table a list of material palette names
+
+function lib.getPalettes()
+    return _paletteNames
+end
+
 --- color function
 --@return an unpacked set of floats
+-- @usage
+-- -- accepts a 3 (or 4) letter RGB(A) hex string starting with #
+-- shape:setFillColor(dataviz.color('#ABC'))
+-- -- accepts a 6 (or 8) letter RGB(A) hex string starting with #
+-- shape:setFillColor(dataviz.color('#aa99fc99'))
+-- -- accepts a table (although unpack would make more sense here)
+-- shape:setFillColor(dataviz.color({1,0,0.3}))
+-- -- accepts a material palette color id (as a string) once the palette is set 
+-- dataviz.setPalette('green')
+-- shape:setFillColor(dataviz.color('a700'))
+
 function lib.color(...)
-    return color(...)
+    return colors(...)
 end
 
 --- create a circle segment
