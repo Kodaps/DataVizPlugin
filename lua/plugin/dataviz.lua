@@ -5,7 +5,7 @@
 -- @author hockley, david
 -- @copyright Kodaps 2018
 -- @alias lib
--- @release 0.2
+-- @release 1.0
 
 local Library = require "CoronaLibrary"
 

@@ -278,7 +278,6 @@ function colors:get_color(_c)
       return hex2rgb(_namedColors[_c])
     end
 
-    print("_palette is ", _palette, "cols = ", _cols[_palette or ""], " index is ",_c,_cols[_palette or ""][_c or ""])
     if _cols[_palette or ""] and _cols[_palette or ""][_c or ""] then 
       return _cols[_palette or ""][_c or ""]
     end  

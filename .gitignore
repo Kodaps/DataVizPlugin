@@ -41,3 +41,5 @@ luac.out
 
 # Hidden Files
 .DS_Store
+
+build/
