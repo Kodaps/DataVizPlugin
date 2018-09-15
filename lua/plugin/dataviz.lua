@@ -145,20 +145,20 @@ end
 ]]
 
 --- set material palette
---@treturn boolean load success or failure 
---@usage dataviz.addNamedColors({
+-- @treturn boolean load success or failure 
+-- @usage dataviz.addNamedColors({
 --  red = "#F00",
 --  green = "#0F0"
---})
---shape:setLineColor(dataviz.color("green"))
+-- })
+-- shape:setStrokeColor(dataviz.color("green"))
 
-function lib.addNamedColors(_cols)
-    colors:addNamedColors(_cols)
+function lib.addNamedColors(colorDict)
+    colors:addNamedColors(colorDict)
 end
 
 --- set material palette
---@treturn boolean load success or failure 
---@usage local result = dataviz.setPalette("blue")
+-- @treturn boolean load success or failure 
+-- @usage local result = dataviz.setPalette("blue")
 
 function lib.setPalette(name)
 
@@ -173,7 +173,7 @@ function lib.setPalette(name)
 end
 
 
---- set material palette
+--- get material palette
 -- @treturn table a list of material palette names
 
 function lib.getPalettes()
@@ -181,14 +181,12 @@ function lib.getPalettes()
 end
 
 --- color function
---@return an unpacked set of floats
+-- @return an unpacked set of floats
 -- @usage
 -- -- accepts a 3 (or 4) letter RGB(A) hex string starting with #
 -- shape:setFillColor(dataviz.color('#ABC'))
 -- -- accepts a 6 (or 8) letter RGB(A) hex string starting with #
 -- shape:setFillColor(dataviz.color('#aa99fc99'))
--- -- accepts a table (although unpack would make more sense here)
--- shape:setFillColor(dataviz.color({1,0,0.3}))
 -- -- accepts a material palette color id (as a string) once the palette is set 
 -- dataviz.setPalette('green')
 -- shape:setFillColor(dataviz.color('a700'))
@@ -320,10 +318,6 @@ end
 
 --- create an arc anchored in the center of the circle
 -- @tparam table data a table
--- First Header  | Second Header
--- ------------- | -------------
--- Content Cell  | Content Cell
--- Content Cell  | Content Cell
 -- @return a DisplayObject group containing a Line and a Dot
 -- @usage local arc = dataviz.newArc({
 --	start_angle = 20,
